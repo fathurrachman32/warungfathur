@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <!-- Shipping Info -->
+        <div class="col-md-6 mb-4 order-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-truck"></i> Shipping Info
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'billing_info' %}">
+                        {% csrf_token %}
+                        {{ shipping_form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-block mt-3">Continue To Billing</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="col-md-6 mb-4 order-md-1">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-shopping-cart"></i> Order Summary
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>{{ product.name }}</div>
+                            <div>
+                                {% if product.is_sale %}
+                                    Rp{{ product.sale_price|floatformat:3 }}
+                                {% else %}
+                                    Rp{{ product.price|floatformat:3 }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-muted">Quantity: 
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>Total:</div>
+                        <div>Rp{{ totals|floatformat:3 }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

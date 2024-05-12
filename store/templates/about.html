@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Pertanyaan yang Sering Diajukan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .faq-section h2 {
+            color: #343a40;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-item h3 {
+            color: #6c757d;
+            margin-top: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-item h3 i {
+            margin-right: 10px;
+        }
+
+        .faq-item h3 i.fa-chevron-down {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item p {
+            color: #555;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        .chat-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .chat-btn button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            outline: none;
+        }
+
+        .chat-btn button:hover {
+            background-color: #0056b3;
+        }
+
+        .chat-btn button i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-question-circle"></i>Pertanyaan yang Sering Diajukan (FAQ)</h1>
+    </header>
+
+    <div class="faq-section">
+        <h2>Pengiriman</h2>
+        <div class="faq-item">
+            <h3><i class="fas fa-truck"></i>Bagaimana cara menghitung biaya pengiriman?<i class="fas fa-chevron-down"></i></h3>
+            <p>Biaya pengiriman dihitung berdasarkan lokasi pengiriman dan berat pesanan Anda. Anda dapat melihat estimasi biaya pengiriman di halaman checkout sebelum menyelesaikan pesanan.</p>
+        </div>
+        <div class="faq-item">
+            <h3><i class="fas fa-clock"></i>Berapa lama waktu pengiriman pesanan?<i class="fas fa-chevron-down"></i></h3>
+            <p>Waktu pengiriman bervariasi tergantung pada lokasi pengiriman dan metode pengiriman yang dipilih. Sebagian besar pesanan biasanya sampai dalam 3-5 hari kerja setelah pengiriman.</p>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <h2>Pembayaran</h2>
+        <div class="faq-item">
+            <h3><i class="fas fa-credit-card"></i>Apa metode pembayaran yang diterima?<i class="fas fa-chevron-down"></i></h3>
+            <p>Kami menerima pembayaran melalui kartu kredit/debit (Visa, MasterCard, American Express) dan juga melalui sistem pembayaran online seperti PayPal.</p>
+        </div>
+        <div class="faq-item">
+            <h3><i class="fas fa-hand-holding-usd"></i>Apakah ada opsi cicilan untuk pembayaran?<i class="fas fa-chevron-down"></i></h3>
+            <p>Saat ini kami tidak menyediakan opsi cicilan untuk pembayaran.</p>
+        </div>
+    </div>
+
+    <div class="faq-section">
+        <h2>Kebijakan Pengembalian</h2>
+        <div class="faq-item">
+            <h3><i class="fas fa-retweet"></i>Bagaimana prosedur pengembalian barang?<i class="fas fa-chevron-down"></i></h3>
+            <p>Anda dapat mengajukan permintaan pengembalian barang melalui akun Anda di situs web kami. Silakan hubungi layanan pelanggan kami untuk bantuan lebih lanjut.</p>
+        </div>
+        <div class="faq-item">
+            <h3><i class="fas fa-money-bill-wave"></i>Apakah ada biaya restocking untuk pengembalian barang?<i class="fas fa-chevron-down"></i></h3>
+            <p>Biaya restocking mungkin dikenakan tergantung pada keadaan barang yang dikembalikan. Detailnya dapat dilihat dalam kebijakan pengembalian kami.</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalText"></p>
+        </div>
+    </div>
+
+    <!-- Chat Button -->
+    <div class="chat-btn">
+        <button onclick="startChat()"><i class="fas fa-comments"></i>Lanjut Chat dengan Chatbot</button>
+    </div>
+
+    <!-- Menambahkan Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+        chat-title="Chatbot FAQ"
+        agent-id="49cb0536-0a73-4684-a38d-0ca027df1acb"
+        language-code="en"
+    ></df-messenger>
+
+    <script>
+        // Function untuk memulai chatbot
+        function startChat() {
+            // Tambahkan logika Anda di sini untuk memulai chat
+            alert('Fungsi untuk memulai chat akan diimplementasikan di sini.');
+        }
+    </script>
+</body>
+</html>

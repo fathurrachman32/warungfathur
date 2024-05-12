@@ -1,0 +1,57 @@
+<!-- Navigation-->
+<br><br><br>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'home' %}">Warung Fathur</a>
+        <!-- Search Form -->
+        <form class="d-flex mr-auto align-items-center" method="POST" action="{% url 'search' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control" type="search" placeholder="Cari Produk" aria-label="Cari Produk" name="searched" style="width: 400px;">
+                <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <!-- End Search Form -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-list"></i> Kategori</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Nature-1' %}"><i class="bi bi-tree"></i> Nature 1</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Nature-2' %}"><i class="bi bi-sun"></i> Nature 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="{% url 'cart_summary' %}" class="nav-link">
+                        <i class="bi bi-basket"></i> <!-- Menggunakan ikon bi-basket -->
+                        <span id="cart_quantity">{{ cart|length }}</span>
+                        Cart
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> Profile
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'update_user' %}"><i class="bi bi-person"></i> User Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'update_info'  %}"><i class="bi bi-info-circle"></i> User Info</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

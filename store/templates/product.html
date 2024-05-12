@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-4">
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    {% if product.is_sale %}
+                        <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="badge bg-danger text-white fw-bold fs-6">Diskon</div>
+                        </div>
+                        <p class="text-center mb-2">
+                            <span class="original-price">Rp.{{ product.price|floatformat:3 }}</span>
+                            <span class="discounted-price">Rp.{{ product.price|floatformat:3 }}</span>
+                        </p>
+                    {% else %}
+                        <p class="text-center mb-2">
+                            <span class="regular-price">Rp.{{ product.price|floatformat:3 }}</span>
+                        </p>
+                    {% endif %}
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input class="form-control input-quantity" type="number" id="qty-cart" value="1" min="1">
+                                <button type="button" value="{{ product.id }}" class="btn btn-outline-dark" id="add-cart"><i class="fas fa-cart-plus"></i> Keranjang</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        var quantity = $('#qty-cart').val();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart_add' %}", 
+            data: {
+                product_id: $('#add-cart').val(),
+                product_qty: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                document.getElementById("cart_quantity").textContent = json.qty;
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+                // Handle errors
+            }
+        });
+    });
+</script>
+
+<style>
+    .original-price {
+        color: #999;
+        text-decoration: line-through;
+        margin-right: 5px;
+    }
+
+    .discounted-price {
+        color: #ff6b6b;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .regular-price {
+        color: #333;
+        font-size: 18px;
+    }
+</style>
+
+{% endblock %}

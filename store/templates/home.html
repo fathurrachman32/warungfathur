@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .carousel-item img {
+        object-fit: cover;
+        width: 1000px;
+        height: 250px;
+        border-radius: 15px;
+        transition: transform 0.5s ease;
+    }
+    .carousel-item:hover img {
+        transform: scale(1.05);
+    }
+    .carousel-container {
+        padding-top: 0px;
+    }
+    .card {
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+
+<!-- Section-->
+<section class="py-5">
+
+    <div class="container px-4 px-lg-5 mt-5 carousel-container">
+        <!-- Carousel -->
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slides -->
+                {% for product in products %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.name }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ product.name }}</h5>
+                        <p>{{ product.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!-- Indikator Carousel -->
+            <ol class="carousel-indicators">
+                {% for product in products %}
+                <li data-bs-target="#carouselExampleSlidesOnly" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                {% endfor %}
+            </ol>
+            <!-- Tombol geser -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Product Cards -->
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center mt-5">
+
+            {% for product in products %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    {% if product.is_sale %}
+                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; left: 0.5rem">Diskon</div>
+                    {% endif %}
+                    <img class="card-img-top product-image" src="{{ product.image.url }}" alt="{{ product.name }}" />
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ product.name }}</h5>
+                            {% if product.is_sale %}
+                            <strike class="text-muted">Rp.{{ product.price|floatformat:3 }}</strike>
+                            <span class="text-danger">Rp.{{ product.sale_price|floatformat:3 }}</span>
+                            {% else %}
+                            <span class="text-dark">Rp.{{ product.price|floatformat:3 }}</span>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">Detail Produk</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+<script>
+    // Menginisialisasi carousel saat dokumen telah dimuat
+    document.addEventListener("DOMContentLoaded", function () {
+        // Temukan elemen carousel
+        var carousel = document.querySelector('.carousel');
+        // Buat objek Carousel dari Bootstrap
+        var carouselInstance = new bootstrap.Carousel(carousel, {
+            interval: 5000 // Atur interval bergeser dalam milidetik (misalnya, 5000ms = 5 detik)
+        });
+
+        // Tambahkan event listener untuk menangkap peristiwa slide di carousel
+        carousel.addEventListener('slid.bs.carousel', function () {
+            // Inisialisasi kembali carousel setiap kali gambar digeser
+            carouselInstance = new bootstrap.Carousel(carousel, {
+                interval: 5000
+            });
+        });
+    });
+</script>
+
+<!-- Menambahkan Dialogflow Messenger -->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+    chat-title="Chatbot FAQ"
+    agent-id="49cb0536-0a73-4684-a38d-0ca027df1acb"
+    language-code="en"
+></df-messenger>
+
+{% endblock %}

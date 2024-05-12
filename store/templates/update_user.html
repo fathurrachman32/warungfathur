@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header-->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6"> <!-- Sesuaikan lebar kolom dengan desain yang konsisten -->
+            <div class="card shadow-lg rounded-lg my-5">
+                <div class="card-body p-5">
+                    <h4 class="text-center mb-4">Update User Profile</h4>
+                    <form method="POST" action="{% url 'update_user' %}">
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        <br/><br/>
+                        <div class="text-center"> <!-- Mengatur tombol di tengah secara horizontal -->
+                            <button type="submit" class="btn btn-primary">Update Profile</button> <!-- Menghapus btn-block agar tombol tidak memenuhi lebar -->
+                        </div>
+                    </form>
+                    <br/>
+                    <div class="text-center"> <!-- Mengatur tombol di tengah secara horizontal -->
+                        <a href="{% url 'update_password' %}" class="btn btn-secondary">Update Password</a> <!-- Menghapus btn-block agar tombol tidak memenuhi lebar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

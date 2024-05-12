@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="py-5">
+    <div class="container px-3 px-lg-3 my-4">
+        <div class="text-center text-dark">
+            <h1 class="display-4 fw-bolder">Checkout Pesanan Anda!</h1>
+        </div>
+    </div>
+</header>
+
+<style>
+    /* Style untuk header cart */
+    .header-cart {
+        padding-top: 50px; /* Sesuaikan sesuai kebutuhan */
+    }
+
+    /* Style untuk card produk */
+    .card {
+        margin-bottom: 20px; /* Jarak antar card */
+        border: 1px solid rgba(0, 0, 0, 0.125); /* Tambahkan border pada card */
+        border-radius: 10px; /* Tambahkan border radius pada card */
+    }
+
+    .card-img-top {
+        border-top-left-radius: 10px; /* Tambahkan border radius pada sudut kiri atas gambar */
+        border-bottom-left-radius: 10px; /* Tambahkan border radius pada sudut kiri bawah gambar */
+        max-height: 200px; /* Batasi tinggi gambar */
+        object-fit: cover; /* Atur gambar agar mengisi area secara proporsional */
+    }
+
+    .card-body {
+        padding: 20px; /* Padding pada body card */
+    }
+
+    .card-title {
+        font-size: 1.25rem; /* Ukuran judul produk */
+        margin-bottom: 10px; /* Jarak antara judul produk dan deskripsi */
+    }
+
+    .card-text {
+        font-size: 1rem; /* Ukuran teks deskripsi produk */
+    }
+
+    .regular-price {
+        font-size: 1.1rem; /* Ukuran harga produk */
+    }
+
+    .input-group {
+        margin-top: 10px; /* Jarak antara input dan tombol */
+    }
+
+    .btn {
+        font-size: 1rem; /* Ukuran teks tombol */
+    }
+
+    .btn-outline-dark {
+        margin-right: 10px; /* Jarak antara tombol Update dan tombol Hapus */
+    }
+
+    .text-center {
+        text-align: center; /* Pusatkan teks */
+    }
+
+    .text-end {
+        text-align: end; /* Pusatkan teks ke kanan */
+        margin-top: 20px; /* Jarak antara total dan tombol checkout */
+    }
+
+    .text-warning {
+        font-size: 0.9rem; /* Ukuran teks peringatan diskon */
+    }
+
+    .badge {
+        font-size: 0.8rem; /* Ukuran teks badge */
+    }
+
+    .discounted-price {
+        font-size: 1.2rem; /* Ukuran harga diskon */
+    }
+</style>
+
+<br>
+<div class="container">
+    {% if cart_products %}
+        {% for product in cart_products %}
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            {% if product.is_sale %}
+                                <div class="text-center">
+                                    <span class="regular-price">Harga: <strike class="original-price">Rp.{{ product.price|floatformat:3 }}</strike></span>
+                                    <br>
+                                    <span class="discounted-price text-danger fw-bold">Diskon Harga: Rp.{{ product.price|floatformat:3 }}</span>
+                                </div>
+                            {% else %}
+                                <p class="regular-price">Harga: Rp.{{ product.price|floatformat:3 }}</p>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-4">Jumlah :</div>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control input-quantity" data-index="{{ product.id }}" value="{% for key, value in quantities.items %}{% if key == product.id|slugify %}{{ value }}{% endif %}{% endfor %}">
+                                        <button class="btn btn-outline-dark update-quantity" type="button">Update</button>
+                                        <button type="button" data-index="{{ product.id }}" class="btn btn-outline-danger delete-product">Hapus</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="text-end">
+            <h3>Total: Rp{{ totals|floatformat:3 }}</h3>
+            <a href="{% url 'checkout' %}" class="btn btn-outline-primary">Checkout</a>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <p>Keranjang Belanja Anda Kosong...</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    // Update Cart
+    $(document).on('click', '.update-quantity', function (e) {
+        e.preventDefault();
+        var productId = $(this).siblings('.input-quantity').attr('data-index');
+        var quantity = $(this).siblings('.input-quantity').val();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart_update' %}",
+            data: {
+                product_id: productId,
+                product_qty: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function (json) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    });
+
+    // Delete Item From Cart
+    $(document).on('click', '.delete-product', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'cart_delete' %}",
+            data: {
+                product_id: $(this).attr('data-index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function (json) {
+                location.reload();
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    });
+</script>
+<br><br><br><br>
+
+{% endblock %}

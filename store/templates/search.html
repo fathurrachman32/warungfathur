@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Copy and paste the CSS styles from home.html here */
+    .carousel-item img {
+        object-fit: cover;
+        width: 1000px;
+        height: 250px;
+        border-radius: 15px;
+        transition: transform 0.5s ease;
+    }
+
+    .carousel-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .carousel-container {
+        padding-top: 0px;
+    }
+
+    .card {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* New style for the discount badge */
+    .discount-badge {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        background-color: #dc3545; /* Discount badge background color */
+        color: #fff; /* Discount badge text color */
+        padding: 0.25rem 0.5rem; /* Discount badge padding */
+        border-radius: 0.25rem; /* Discount badge border radius */
+        font-size: 0.75rem; /* Discount badge font size */
+    }
+
+    /* New style for discounted price */
+    .discounted-price {
+        color: #dc3545; /* Discounted price color */
+    }
+</style>
+
+<!-- Search Results Display -->
+<div class="container mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        {% if searched %}
+            {% for product in searched %}
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        {% if product.is_sale %}
+                            <div class="discount-badge">Diskon</div> <!-- Discount badge -->
+                        {% endif %}
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">{{ product.name }}</h5>
+                                {% if product.is_sale %}
+                                    <strike>Rp.{{ product.price|floatformat:3 }}</strike>
+                                    &nbsp; <span class="discounted-price">Rp.{{ product.price|floatformat:3 }}</span> <!-- Discounted price -->
+                                {% else %}
+                                Rp.{{ product.price|floatformat:3 }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
