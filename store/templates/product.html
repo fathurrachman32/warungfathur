@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <div class="container py-4">
-    <div class="card">
+    <div class="card shadow">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="Product Image">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
+                    <h2 class="card-title">{{ product.name }}</h2>
                     <p class="card-text">{{ product.description }}</p>
                     {% if product.is_sale %}
-                        <div class="d-flex justify-content-center small text-warning mb-2">
-                            <div class="badge bg-danger text-white fw-bold fs-6">Diskon</div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <span class="badge bg-danger">Diskon</span>
                         </div>
-                        <p class="text-center mb-2">
-                            <span class="original-price">Rp.{{ product.price|floatformat:3 }}</span>
-                            <span class="discounted-price">Rp.{{ product.price|floatformat:3 }}</span>
-                        </p>
+                        <div class="text-center mb-3">
+                            <span class="original-price">Harga Asli: Rp.{{ product.price|floatformat:0 }}</span>
+                            <span class="discounted-price">Harga Diskon: Rp.{{ product.sale_price|floatformat:0 }}</span>
+                        </div>
                     {% else %}
-                        <p class="text-center mb-2">
-                            <span class="regular-price">Rp.{{ product.price|floatformat:3 }}</span>
-                        </p>
+                        <div class="text-center mb-3">
+                            <span class="regular-price">Harga: Rp.{{ product.price|floatformat:3 }}</span>
+                        </div>
                     {% endif %}
                     <div class="row justify-content-center">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <input class="form-control input-quantity" type="number" id="qty-cart" value="1" min="1">
-                                <button type="button" value="{{ product.id }}" class="btn btn-outline-dark" id="add-cart"><i class="fas fa-cart-plus"></i> Keranjang</button>
+                                <button type="button" value="{{ product.id }}" class="btn btn-dark btn-add-to-cart" id="add-cart">
+                                    <i class="fas fa-cart-plus me-2"></i> 
+                                    <span class="btn-text">Tambah ke Keranjang</span>
+                                </button>
+                                
                             </div>
-                        </div>
+                            <small class="text-muted">Klik untuk menambahkan ke keranjang belanja</small>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -66,18 +70,17 @@
     .original-price {
         color: #999;
         text-decoration: line-through;
-        margin-right: 5px;
+        margin-right: 10px;
     }
 
     .discounted-price {
         color: #ff6b6b;
         font-weight: bold;
-        font-size: 18px;
     }
 
     .regular-price {
         color: #333;
-        font-size: 18px;
+        font-weight: bold;
     }
 </style>
 
