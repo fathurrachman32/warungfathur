@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <h3 class="display-4">Barang yang Belum Dikirim</h3>
+                <p class="text-muted">Semua pesanan yang belum dikirim</p>
+            </div>
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-danger text-white d-flex justify-content-center">
+                    <h4 class="mb-0">Pesanan yang Belum Dikirim</h4>
+                </div>
+                <div class="card-body p-4">
+                    <table class="table table-hover table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Pesanan</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Email Pelanggan</th>
+                                <th scope="col">Tanggal Pemesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in orders %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>{{ item.amount_paid | floatformat:2 }}</td>
+                                <td>{{ item.email }}</td>
+                                <td>{{ item.date_ordered }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+{% endblock %}
