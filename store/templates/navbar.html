@@ -20,16 +20,38 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Products</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'category' 'Nature-1' %}"><i class="bi bi-tree"></i> Nature 1</a></li>
-                        <li><a class="dropdown-item" href="{% url 'category' 'Nature-2' %}"><i class="bi bi-sun"></i> Nature 2</a></li>
-                    </ul>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Tepung' %}"><i class="bi bi-archive-fill"></i> Tepung</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Gula' %}"><i class="bi bi-heart-fill"></i> Gula</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Telur' %}"><i class="bi bi-egg-fill"></i> Telur</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Pewangi' %}"><i class="bi bi-droplet-fill"></i> Pewangi</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Kopi Teh dan Minuman-Sachet' %}"><i class="bi bi-cup-straw"></i> Kopi, Teh, dan Minuman Sachet</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Minuman-Kemasan' %}"><i class="bi bi-bag-check-fill"></i> Minuman Kemasan</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Pasta-Gigi' %}"><i class="bi bi-tooth"></i> Pasta Gigi</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Bumbu-Masak' %}"><i class="bi bi-droplet-fill"></i> Bumbu Masak</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Pembersih-Lantai' %}"><i class="bi bi-bucket-fill"></i> Pembersih Lantai</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Sabun-Mandi' %}"><i class="bi bi-soap"></i> Sabun Mandi</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Sabun-Cuci' %}"><i class="bi bi-bucket"></i> Sabun Cuci</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Mie-Instan' %}"><i class="bi bi-box-seam"></i> Mie Instan</a></li>
+                    </ul>                  
+                    {% if user.is_superuser %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-truck"></i> Orders
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'shipped_dash' %}"><i class="bi bi-check-circle"></i> Shipped Orders</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}"><i class="bi bi-x-circle"></i> Unshipped Orders</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
                 </li>
             </ul>
 
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a href="{% url 'cart_summary' %}" class="nav-link">
-                        <i class="bi bi-basket"></i> <!-- Menggunakan ikon bi-basket -->
+                        <i class="bi bi-basket"></i>
                         <span id="cart_quantity">{{ cart|length }}</span>
                         Cart
                     </a>
@@ -41,7 +63,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'update_user' %}"><i class="bi bi-person"></i> User Profile</a></li>
-                        <li><a class="dropdown-item" href="{% url 'update_info'  %}"><i class="bi bi-info-circle"></i> User Info</a></li>
+                        <li><a class="dropdown-item" href="{% url 'update_info' %}"><i class="bi bi-info-circle"></i> User Info</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                     </ul>
