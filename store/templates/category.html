@@ -1,47 +1,98 @@
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-    <!-- Section-->
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                {% for product in products %}
-                <div class="col mb-5">
-                    <div class="card h-100">
+{% block content %}
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .card-body h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .price {
+        font-size: 1rem;
+        color: #000;
+        font-weight: 600;
+    }
+
+    .sale-price {
+        font-size: 1rem;
+        color: #ff0000;
+        font-weight: 600;
+    }
+
+    .original-price {
+        font-size: 0.9rem;
+        color: #777;
+        text-decoration: line-through;
+    }
+
+    .btn-custom {
+        background-color: #000;
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #333;
+    }
+</style>
+
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-6 justify-content-center">
+            {% for product in products %}
+            <div class="col mb-5">
+                <div class="card h-100 shadow-sm">
+                    {% if product.is_sale %}
+                    <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; left: 0.5rem">Diskon</div>
+                    {% endif %}
+                    <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
+                    <div class="card-body">
+                        <h5 class="fw-bolder">{{ product.name }}</h5>
                         {% if product.is_sale %}
-                        <!-- Sale badge-->
-                        <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; left: 0.5rem">Diskon</div>
-                        {% endif %}
-                        <!-- Product image-->
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{ product.name }}</h5>
-                                <!-- Product price-->
-                                {% if product.is_sale %}
-                                <strike>
-                                    Rp.{{ product.price|floatformat:3 }}
-                                </strike>
-                                &nbsp;
-                                <span class="text-danger">Rp{{ product.sale_price|floatformat }}</span>
-                                {% else %}
-                                Rp.{{ product.price|floatformat:3 }}
-                                {% endif %}
-                            </div>
+                        <div class="price">
+                            <span class="original-price">Rp.{{ product.price|floatformat:3 }}</span>
+                            <span class="sale-price">Rp.{{ product.sale_price|floatformat:3 }}</span>
                         </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">Detail Produk</a>
-                            </div>
+                        {% else %}
+                        <div class="price">
+                            <span class="text-dark">Rp.{{ product.price|floatformat:3 }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="text-center">
+                            <a class="btn btn-custom btn-sm" href="{% url 'product' product.id %}">Detail Produk</a>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-    {% endblock %}
+{% endblock %}
