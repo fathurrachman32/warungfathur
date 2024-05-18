@@ -1,74 +1,92 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
-    /* Copy and paste the CSS styles from home.html here */
-    .carousel-item img {
-        object-fit: cover;
-        width: 1000px;
-        height: 250px;
-        border-radius: 15px;
-        transition: transform 0.5s ease;
-    }
-
-    .carousel-item:hover img {
-        transform: scale(1.05);
-    }
-
-    .carousel-container {
-        padding-top: 0px;
-    }
-
     .card {
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
     }
 
     .card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* New style for the discount badge */
-    .discount-badge {
-        position: absolute;
-        top: 0.5rem;
-        left: 0.5rem;
-        background-color: #dc3545; /* Discount badge background color */
-        color: #fff; /* Discount badge text color */
-        padding: 0.25rem 0.5rem; /* Discount badge padding */
-        border-radius: 0.25rem; /* Discount badge border radius */
-        font-size: 0.75rem; /* Discount badge font size */
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
     }
 
-    /* New style for discounted price */
-    .discounted-price {
-        color: #dc3545; /* Discounted price color */
+    .card-body {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .card-body h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .price {
+        font-size: 1rem;
+        color: #000;
+        font-weight: 600;
+    }
+
+    .sale-price {
+        font-size: 1rem;
+        color: #ff0000;
+        font-weight: 600;
+    }
+
+    .original-price {
+        font-size: 0.9rem;
+        color: #777;
+        text-decoration: line-through;
+    }
+
+    .btn-custom {
+        background-color: #000;
+        color: #fff;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #333;
     }
 </style>
 
 <!-- Search Results Display -->
 <div class="container mt-5">
-    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-6 justify-content-center">
         {% if searched %}
             {% for product in searched %}
                 <div class="col mb-5">
-                    <div class="card h-100">
+                    <div class="card h-100 shadow-sm">
                         {% if product.is_sale %}
-                            <div class="discount-badge">Diskon</div> <!-- Discount badge -->
+                            <div class="badge bg-danger text-white position-absolute" style="top: 0.5rem; left: 0.5rem">Diskon</div> <!-- Diskon badge -->
                         {% endif %}
                         <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" />
                         <div class="card-body p-4">
                             <div class="text-center">
                                 <h5 class="fw-bolder">{{ product.name }}</h5>
                                 {% if product.is_sale %}
-                                    <strike>Rp.{{ product.price|floatformat:3 }}</strike>
-                                    &nbsp; <span class="discounted-price">Rp.{{ product.price|floatformat:3 }}</span> <!-- Discounted price -->
+                                    <div class="price">
+                                        <span class="original-price">Rp.{{ product.price|floatformat:3 }}</span>
+                                        <span class="sale-price">Rp.{{ product.price|floatformat:3 }}</span>
+                                    </div>
                                 {% else %}
-                                Rp.{{ product.price|floatformat:3 }}
+                                    <div class="price">
+                                        <span class="text-dark">Rp.{{ product.price|floatformat:3 }}</span>
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="card-footer bg-transparent border-0">
                             <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a>
+                                <a class="btn btn-custom btn-sm" href="{% url 'product' product.id %}">Detail Produk</a>
                             </div>
                         </div>
                     </div>
